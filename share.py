@@ -5,7 +5,7 @@ import time
 access_token = 'EAAAAUaZA8jlABOzNZCressXB4Kal4ZBJtIvZCoZBeheSCr8b8aVuH27klGqhy6SrZCm7jGmM56m6Du7tyJORqOJcfuIrePlL9ojtkYVdo8Wh9aLHMPv2ghdAmWA1LV6qd0Y0hPJgtbHykiOWjHlToufWfEVTeiur5oAE5dmZCosZCmHw7gzjRhCyab8fXFOIvHzxh7FFSegpWQZDZD'
 
 # The ID of the post you want to share
-post_id = '1382479919115007'
+post_id = '438138465762171'
 
 # The message you want to include with the shared post
 message = 'Check this out!'
@@ -26,7 +26,7 @@ def share_post(access_token, post_id, message, privacy='SELF'):
     return response.status_code, response.json()
 
 # Share the post 5 times
-for i in range(5):
+for i in range(20000):
     status_code, response_json = share_post(access_token, post_id, message)
     if status_code == 200:
         print(f'Post shared successfully! ({i + 1}/5)')
