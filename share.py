@@ -33,4 +33,4 @@ for i in range(5):
     else:
         print(f'Failed to share post ({i + 1}/5). Status code: {status_code}')
         print(response_json)
-    time.sleep(2)  # Sleep for 2 seconds between shares to avoid rate limiting
+    time.sleep(1)  # Sleep for 1 second between shares to avoid rate limiting
