@@ -113,12 +113,6 @@
 </div>
 
 <script>
-    function escapeHTML(html) {
-        const div = document.createElement('div');
-        div.textContent = html;
-        return div.innerHTML;
-    }
-
     async function sendMessage() {
         const input = document.getElementById('chat-input');
         const query = input.value;
@@ -136,13 +130,13 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ sessionId: 'default', query })  // Remplacez par une véritable session si nécessaire
+            body: JSON.stringify({ query })
         });
 
         const data = await response.json();
         const botMessage = document.createElement('div');
         botMessage.className = 'chat-message bot';
-        botMessage.innerHTML = escapeHTML(data.response);
+        botMessage.textContent = data.response;
         chatBody.appendChild(botMessage);
 
         chatBody.scrollTop = chatBody.scrollHeight;
