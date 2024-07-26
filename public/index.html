@@ -1,3 +1,4 @@
+Modifier ce code html pour qu'aucun code html ne sera pas executé dans le chat-container:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,7 +119,7 @@
         div.textContent = html;
         return div.innerHTML;
     }
-
+    
     async function sendMessage() {
         const input = document.getElementById('chat-input');
         const query = input.value;
@@ -126,10 +127,7 @@
         input.value = '';
 
         const chatBody = document.getElementById('chat-body');
-        const userMessage = document.createElement('div');
-        userMessage.className = 'chat-message user';
-        userMessage.textContent = query;
-        chatBody.appendChild(userMessage);
+        chatBody.innerHTML += `<div class="chat-message user">escapeHTML(${query})</div>`;
 
         const response = await fetch('/api/chat', {
             method: 'POST',
@@ -140,11 +138,7 @@
         });
 
         const data = await response.json();
-        const botMessage = document.createElement('div');
-        botMessage.className = 'chat-message bot';
-        botMessage.innerHTML = escapeHTML(data.response);
-        chatBody.appendChild(botMessage);
-
+        chatBody.innerHTML += `<div class="chat-message bot">escapeHTML(${data.response})</div>`;
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 </script>
