@@ -1,4 +1,3 @@
-Modifier ce code html pour qu'aucun code html ne sera pas executé dans le chat-container:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,12 +113,6 @@ Modifier ce code html pour qu'aucun code html ne sera pas executé dans le chat-
 </div>
 
 <script>
-    function escapeHTML(html) {
-        const div = document.createElement('div');
-        div.textContent = html;
-        return div.innerHTML;
-    }
-    
     async function sendMessage() {
         const input = document.getElementById('chat-input');
         const query = input.value;
@@ -127,7 +120,7 @@ Modifier ce code html pour qu'aucun code html ne sera pas executé dans le chat-
         input.value = '';
 
         const chatBody = document.getElementById('chat-body');
-        chatBody.innerHTML += `<div class="chat-message user">escapeHTML(${query})</div>`;
+        chatBody.innerHTML += `<div class="chat-message user">${query}</div>`;
 
         const response = await fetch('/api/chat', {
             method: 'POST',
@@ -138,7 +131,7 @@ Modifier ce code html pour qu'aucun code html ne sera pas executé dans le chat-
         });
 
         const data = await response.json();
-        chatBody.innerHTML += `<div class="chat-message bot">escapeHTML(${data.response})</div>`;
+        chatBody.innerHTML += `<div class="chat-message bot">${data.response}</div>`;
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 </script>
