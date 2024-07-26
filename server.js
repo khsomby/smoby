@@ -5,16 +5,27 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3003;
 
+// Store conversation history for each session
+const conversationHistory = {};
+
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
 app.post('/api/chat', async (req, res) => {
-  const { query } = req.body;
+  const { sessionId, query } = req.body;
+
+  if (!conversationHistory[sessionId]) {
+    conversationHistory[sessionId] = [];
+  }
+
+  const conversation = conversationHistory[sessionId];
+  conversation.push({ role: 'user', content: query });
+
   try {
     const response = await axios.post(
       'https://typli.ai/api/generators/completion',
       {
-        prompt: query,
+        prompt: conversation.map(turn => turn.content).join('\n'),
         temperature: 1.2,
       },
       {
@@ -24,7 +35,11 @@ app.post('/api/chat', async (req, res) => {
         },
       }
     );
-    res.json({ response: response.data });
+
+    const botResponse = response.data;
+    conversation.push({ role: 'bot', content: botResponse });
+
+    res.json({ response: botResponse });
   } catch (error) {
     res.status(500).json({ error: 'Failed to generate text. Please try again later.' });
   }
