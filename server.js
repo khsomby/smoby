@@ -3,9 +3,7 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 8080;
-
-// Store conversation history for each session
+const port = 10000;
 const conversationHistory = {};
 
 app.use(bodyParser.json());
