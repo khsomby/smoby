@@ -3,7 +3,7 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 3003;
+const port = 3000;
 
 // Store conversation history for each session
 const conversationHistory = {};
@@ -31,7 +31,7 @@ app.post('/api/chat', async (req, res) => {
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer undefined',
+          'Authorization': 'Bearer undefined',  // Assurez-vous de remplacer par votre clé API
         },
       }
     );
@@ -41,6 +41,7 @@ app.post('/api/chat', async (req, res) => {
 
     res.json({ response: botResponse });
   } catch (error) {
+    console.error('Error generating text:', error);
     res.status(500).json({ error: 'Failed to generate text. Please try again later.' });
   }
 });
