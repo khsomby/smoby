@@ -113,6 +113,12 @@
 </div>
 
 <script>
+    function escapeHTML(html) {
+        const div = document.createElement('div');
+        div.textContent = html;
+        return div.innerHTML;
+    }
+
     async function sendMessage() {
         const input = document.getElementById('chat-input');
         const query = input.value;
@@ -120,18 +126,25 @@
         input.value = '';
 
         const chatBody = document.getElementById('chat-body');
-        chatBody.innerHTML += `<div class="chat-message user">${query}</div>`;
+        const userMessage = document.createElement('div');
+        userMessage.className = 'chat-message user';
+        userMessage.textContent = query;
+        chatBody.appendChild(userMessage);
 
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ query })
+            body: JSON.stringify({ sessionId: 'default', query })  // Remplacez par une véritable session si nécessaire
         });
 
         const data = await response.json();
-        chatBody.innerHTML += `<div class="chat-message bot">${data.response}</div>`;
+        const botMessage = document.createElement('div');
+        botMessage.className = 'chat-message bot';
+        botMessage.innerHTML = escapeHTML(data.response);
+        chatBody.appendChild(botMessage);
+
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 </script>
