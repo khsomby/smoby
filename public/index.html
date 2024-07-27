@@ -120,7 +120,10 @@
         input.value = '';
 
         const chatBody = document.getElementById('chat-body');
-        chatBody.innerHTML += `<div class="chat-message user">${query}</div>`;
+        const userMessage = document.createElement('div');
+        userMessage.className = 'chat-message user';
+        userMessage.textContent = query;
+        chatBody.appendChild(userMessage);
 
         const response = await fetch('/api/chat', {
             method: 'POST',
@@ -131,7 +134,11 @@
         });
 
         const data = await response.json();
-        chatBody.innerHTML += `<div class="chat-message bot">${data.response}</div>`;
+        const botMessage = document.createElement('div');
+        botMessage.className = 'chat-message bot';
+        botMessage.textContent = data.response;
+        chatBody.appendChild(botMessage);
+
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 </script>
