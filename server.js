@@ -3,42 +3,28 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 2008;
-
-const conversationHistory = {};
+const port = 3000;
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
 app.post('/api/chat', async (req, res) => {
-  const { sessionId, query } = req.body;
-
-  if (!conversationHistory[sessionId]) {
-    conversationHistory[sessionId] = [];
-  }
-
-  const conversation = conversationHistory[sessionId];
-  conversation.push({ role: 'user', content: query });
-
+  const { query } = req.body;
   try {
     const response = await axios.post(
       'https://typli.ai/api/generators/completion',
       {
-        prompt: conversation.map(turn => turn.content).join('\n'),
+        prompt: query,
         temperature: 1.2,
       },
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer undefined',
+          'Authorization': 'Bearer YOUR_API_KEY', // Replace 'YOUR_API_KEY' with your actual API key
         },
       }
     );
-
-    const botResponse = response.data;
-    conversation.push({ role: 'bot', content: botResponse });
-
-    res.json({ response: botResponse });
+    res.json({ response: response.data });
   } catch (error) {
     res.status(500).json({ error: 'Failed to generate text. Please try again later.' });
   }
