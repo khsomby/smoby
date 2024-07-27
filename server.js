@@ -1,9 +1,13 @@
+Voici le code associé avec:
+
 const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 10000;
+const port = 3000;
+
+// Store conversation history for each session
 const conversationHistory = {};
 
 app.use(bodyParser.json());
