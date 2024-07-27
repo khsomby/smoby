@@ -113,6 +113,8 @@
 </div>
 
 <script>
+    let chatHistory = [];
+
     async function sendMessage() {
         const input = document.getElementById('chat-input');
         const query = input.value;
@@ -121,18 +123,20 @@
 
         const chatBody = document.getElementById('chat-body');
         chatBody.innerHTML += `<div class="chat-message user">${query}</div>`;
+        chatHistory.push({ role: 'user', content: query });
 
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ query })
+            body: JSON.stringify({ history: chatHistory })
         });
 
         const data = await response.json();
-        chatBody.innerHTML += `<div class="chat-message bot">${data.response}</div>`;
+        chatBody.innerHTML += `<div class="chat-message bot">${data.response || 'No response from AI'}</div>`;
         chatBody.scrollTop = chatBody.scrollHeight;
+        chatHistory.push({ role: 'bot', content: data.response });
     }
 </script>
 
