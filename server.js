@@ -20,7 +20,7 @@ app.post('/api/chat', async (req, res) => {
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer YOUR_API_KEY', // Replace 'YOUR_API_KEY' with your actual API key
+          'Authorization': 'Bearer undefined',
         },
       }
     );
