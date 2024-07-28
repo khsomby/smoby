@@ -3,8 +3,9 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
+// Store conversation history for each session
 const conversationHistory = {};
 
 app.use(bodyParser.json());
@@ -44,4 +45,6 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-module.exports = app;
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
